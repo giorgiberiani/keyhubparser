@@ -42,5 +42,4 @@ class KeyhubParser(scrapy.Spider):
         image_local_path = '/home/beriani/data/keyhub/{}'.format(image_name)
         os.system('curl {} > {}'.format(image_url, image_local_path))
 
- 
 
