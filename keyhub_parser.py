@@ -20,7 +20,7 @@ class KeyhubParser(scrapy.Spider):
         for category in self.categories:
             url = self.url.format(category)
 
-            yield scrapy.Request(url, self.get_pages)
+            yield scrapy.Request(url, self.parse_pages)
 
 
     def parse_pages(self, response):
@@ -29,12 +29,12 @@ class KeyhubParser(scrapy.Spider):
 
         for page in range(1,number_of_pages):
             url = response.url+'?page={}'.format(page)
-            yield scrapy.Request(url, self.get_game_urls)
+            yield scrapy.Request(url, self.parse_game_urls)
 
     def parse_game_urls(self, response):
         urls = response.xpath('//*[@class="category_bottom"]/div[@class="category_title"]/h3/a/@href').extract()
         for url in urls:
-            yield scrapy.Request(url, self.parse_content)
+            yield scrapy.Request(url, self.parse_images)
 
     def parse_images(self, response):
 
