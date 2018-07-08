@@ -8,7 +8,7 @@ class KeyhubParser(scrapy.Spider):
         'https://www.keyhub.com/en/'
     ]
 
-    url = 'https://www.keyhub.com/en/category/{}/'
+    url = 'https://www.keyhub.com/en/cd-keys-prices-compare/{}/'
 
     allowed_domains = [
         'keyhub.com'
@@ -19,7 +19,6 @@ class KeyhubParser(scrapy.Spider):
     def parse(self, response):
         for category in self.categories:
             url = self.url.format(category)
-
             yield scrapy.Request(url, self.parse_pages)
 
 
@@ -39,7 +38,6 @@ class KeyhubParser(scrapy.Spider):
     def parse_images(self, response):
 
         image_url = response.xpath('//*[@itemprop="image"]/@src').extract_first()
-        # game_name = response.xpath('//*[@class="title"]/text()').extract_first()
         image_name = image_url.split('/')[-1]
         image_local_path = '/home/beriani/data/keyhub/{}'.format(image_name)
         os.system('curl {} > {}'.format(image_url, image_local_path))
